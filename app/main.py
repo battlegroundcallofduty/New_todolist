@@ -29,4 +29,4 @@ app.include_router(todos_router)
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     """Render the main Todo App page."""
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request, "index.html")

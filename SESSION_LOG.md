@@ -110,3 +110,39 @@ d11384b  01:20  feat: 할 일 추가 기능 구현
 1. **프롬프트 문서는 git에 포함해야 한다** — gitignore하면 clone 시 유실되어 프로젝트 재현이 불가능하다.
 2. **문서 체계는 콘텍스트 윈도우를 고려해서 설계한다** — 항상 로드(CLAUDE.md)는 짧게, 상세(STRATEGY.md)는 참조로, 빌드 프롬프트(AGENT_PROMPT.md)는 수동 로드로 분리.
 3. **누적 문서는 운영 규칙이 필요하다** — "언제, 어떤 형식으로, 누가 갱신하는가"를 명시하지 않으면 방치된다.
+
+---
+
+# 세션 — 2026-04-03 (3차)
+
+AGENT_PROMPT.md 기반 TodoList MVP 전체 구현 (새 환경).
+
+## 타임라인
+
+| 시각 | 작업 | 결과 |
+|---|---|---|
+| - | 환경 확인 | uv OK, gh 없음(Phase 1 스킵), lsof 없음(Makefile Windows 적응) |
+| - | uv 패키지 설치 | fastapi, uvicorn, aiosqlite, jinja2, pytest-asyncio, httpx |
+| - | Phase 0: Harness | Makefile, ci.yml, .gitignore, STRATEGY.md, 앱 골격 |
+| - | Phase 2~3: 구현 | database.py(CRUD), models.py, routers/todos.py, index.html, style.css, app.js |
+| - | 테스트 | 14/14 PASS |
+| - | 품질 검증 | gradient=0, location.reload=0, f-string SQL=0, ::after=2, field_validator=3 |
+| - | 서버 기동 | localhost:8000 GET /api/todos/ → [] 확인 |
+| - | git commit | 8c85fe6, tag v0.1.0 |
+
+## 발견된 문제
+
+| 문제 | 원인 | 해결 |
+|---|---|---|
+| gh CLI 없음 | 환경 미설치 | Phase 1(GitHub Issues) 스킵. 로컬 구현에 집중 |
+| lsof 없음 | Windows 환경 | Makefile 포트 탐색을 netstat으로 대체 |
+
+## 커밋
+
+- `8c85fe6` — feat: TodoList MVP 전체 구현 — Phase 0~3 완성
+
+## 교훈
+
+1. **Windows에서 lsof 없음** — Makefile 포트 탐색은 `netstat -ano | grep`으로 대체해야 한다.
+2. **gh 없으면 Phase 1 스킵** — GitHub Issues 없이도 구현은 가능. 추후 gh 설치 후 별도 진행.
+3. **pytest-asyncio 1.3.0** — `asyncio_mode = "auto"` 설정으로 `@pytest.mark.asyncio` 없이 동작 확인.
