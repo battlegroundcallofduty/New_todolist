@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,25 +13,84 @@
   <link rel="stylesheet" href="/static/css/style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1 class="app-title">할 일</h1>
 
-    <form id="todo-form" class="todo-form" novalidate>
-      <input
-        id="todo-input"
-        class="todo-input"
-        type="text"
-        placeholder="할 일을 입력하세요"
-        autocomplete="off"
-      />
-      <button type="submit" class="todo-submit">추가</button>
-    </form>
+  <div class="app-layout">
 
-    <div id="todo-list-container" class="todo-list-container">
-      <ul id="todo-list" class="todo-list"></ul>
-      <p id="empty-state" class="empty-state">오늘 할 일을 적어보세요</p>
-      <p id="error-state" class="error-state" hidden>목록을 불러오지 못했습니다</p>
-    </div>
+    <!-- ── 사이드바 (데스크탑) ── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">카테고리</span>
+        <button class="sidebar-add-btn" id="sidebar-add-btn" aria-label="카테고리 추가">+</button>
+      </div>
+
+      <form class="sidebar-add-form" id="sidebar-add-form" hidden>
+        <input
+          id="category-input"
+          class="category-input"
+          type="text"
+          placeholder="이름 입력"
+          autocomplete="off"
+          maxlength="30"
+        />
+      </form>
+
+      <ul class="category-list" id="category-list">
+        <li class="category-item active" data-id="all">
+          <span class="category-name">전체</span>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- ── 메인 콘텐츠 ── -->
+    <main class="main-content">
+
+      <!-- 상단 바: 타이틀 + 모바일 카테고리 + 다크모드 -->
+      <div class="top-bar">
+        <h1 class="app-title">할 일</h1>
+        <div class="top-bar-right">
+          <!-- 모바일용 카테고리 드롭다운 -->
+          <select class="category-select-mobile" id="category-select-mobile" aria-label="카테고리 선택">
+            <option value="all">전체</option>
+          </select>
+          <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환">
+            <span class="theme-icon" id="theme-icon">&#9788;</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 할일 추가 폼 -->
+      <form id="todo-form" class="todo-form" novalidate>
+        <div class="todo-form-row">
+          <input
+            id="todo-input"
+            class="todo-input"
+            type="text"
+            placeholder="할 일을 입력하세요"
+            autocomplete="off"
+          />
+          <button type="submit" class="todo-submit">추가</button>
+        </div>
+        <div class="todo-form-meta">
+          <input
+            id="due-date-input"
+            class="due-date-input"
+            type="date"
+            aria-label="마감일"
+          />
+          <select id="category-select-form" class="category-select-form" aria-label="카테고리">
+            <option value="">카테고리 없음</option>
+          </select>
+        </div>
+      </form>
+
+      <!-- 할일 목록 -->
+      <div id="todo-list-container" class="todo-list-container">
+        <ul id="todo-list" class="todo-list"></ul>
+        <p id="empty-state" class="empty-state">오늘 할 일을 적어보세요</p>
+        <p id="error-state" class="error-state" hidden>목록을 불러오지 못했습니다</p>
+      </div>
+
+    </main>
   </div>
 
   <script src="/static/js/app.js"></script>

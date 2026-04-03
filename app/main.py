@@ -8,6 +8,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from app.database import init_db
+from app.routers.categories import router as categories_router
 from app.routers.todos import router as todos_router
 
 
@@ -24,6 +25,7 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 
 app.include_router(todos_router)
+app.include_router(categories_router)
 
 
 @app.get("/", response_class=HTMLResponse)
